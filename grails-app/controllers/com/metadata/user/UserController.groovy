@@ -103,5 +103,13 @@ class UserController {
         ServerSocket server = new ServerSocket(port, 50, InetAddress.getByName(host));
         return server
     }
+    def checkNull(messageIn){
+        for(int i =0; i<messageIn.length; i++){
+            if(messageIn[i]==null){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
