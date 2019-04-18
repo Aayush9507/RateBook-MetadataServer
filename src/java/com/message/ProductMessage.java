@@ -1,4 +1,4 @@
-package com.hw2;
+package com.message;
 
 import java.awt.image.BufferedImage;
 
