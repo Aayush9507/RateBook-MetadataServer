@@ -1,10 +1,19 @@
 package com.message;
+
 import java.io.IOException;
+import java.util.UUID;
+
 public class ACKMessage extends Message {
+
+    public ACKMessage(UUID uuid) {
+        super(MessageType.ACKMessage, uuid);
+    }
+
     @Override
     public byte[] encode() throws IOException {
         return new Encoder()
                 .encodeMessageType(this.messageType)
+                .encodeUUID(this.conversationId)
                 .toByteArray();
     }
 
@@ -14,17 +23,17 @@ public class ACKMessage extends Message {
         if (decoder.decodeMessageType() != MessageType.ACKMessage) {
             throw new IllegalArgumentException();
         }
-
-        return new ACKMessage();
+        UUID uuid = decoder.decodeUUID();
+        return new ACKMessage(uuid);
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        return super.equals(o);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return super.hashCode();
-//    }
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

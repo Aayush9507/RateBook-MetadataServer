@@ -38,11 +38,6 @@ public class ConversationFactory {
 
     public Conversation CreateFromConversationType() {
         Conversation conv = new Conversation();
-        conv.ConvId = conv.getConvId();
-        conv.MaxRetries = 2;
-        conv.State = Conversation.PossibleState.Working;
-        conv.MaxRetries = 4;
-        ConversationDictionary.addConversation(conv.ConvId,conv);
         return conv;
     }
 

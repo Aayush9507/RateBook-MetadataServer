@@ -8,18 +8,32 @@ public  class RegisterUserMessage extends Message {
     private String emailId;
     private String password;
     private String areaOfInterest;
-    private String convId;
-    private String msgId;
+//    private String convId;
+//    private String msgId;
 
-    public RegisterUserMessage(String convId,String msgId, String userId, String Name, String emailId, String password, String areaOfInterest) {
-        this.convId = convId;
-        this.msgId = userId;
-        this.userId = msgId;
+    public RegisterUserMessage(String userId, String Name, String emailId, String password, String areaOfInterest) {
+        super(MessageType.RegisterUser);
+//        this.convId = convId;
+        this.userId = userId;
+//        this.userId = msgId;
         this.Name = Name;
         this.emailId = emailId;
         this.password = password;
         this.areaOfInterest = areaOfInterest;
     }
+    
+        public RegisterUserMessage(UUID uuid, String userId, String Name, String emailId, String password, String areaOfInterest) {
+        super(MessageType.RegisterUser,uuid);
+//        this.convId = convId;
+        this.userId = userId;
+//        this.userId = msgId;
+        this.Name = Name;
+        this.emailId = emailId;
+        this.password = password;
+        this.areaOfInterest = areaOfInterest;
+    }
+    
+    
 
 
     public static RegisterUserMessage decode(byte[] messageBytes) {
@@ -28,15 +42,16 @@ public  class RegisterUserMessage extends Message {
         if (decoder.decodeMessageType() != MessageType.RegisterUser) {
             throw new IllegalArgumentException();
         }
-        String convId = decoder.decodeString();
-        String msgId = decoder.decodeString();
+//        String convId = decoder.decodeString();
+//        String msgId = decoder.decodeString();
+        UUID uuid = decoder.decodeUUID();
         String userId = decoder.decodeString();
         String Name = decoder.decodeString();
         String emailId = decoder.decodeString();
         String password = decoder.decodeString();
         String areaOfInterest = decoder.decodeString();
 
-        return new RegisterUserMessage(convId, msgId, userId, Name, emailId, password, areaOfInterest);
+        return new RegisterUserMessage(uuid, userId, Name, emailId, password, areaOfInterest);
     }
 
     public String getUserId() {
@@ -81,9 +96,12 @@ public  class RegisterUserMessage extends Message {
 
     @Override
     public byte[] encode() throws IOException {
+        System.out.println("Encoding......................Register user Message");
+        System.out.println("Message Type"+this.getMessageType());
+        System.out.println("Conversation Id"+this.getConversationId());
         return new Encoder()
                 .encodeMessageType(messageType)
-                .encodeString(msgId)
+                .encodeUUID(conversationId)
                 .encodeString(userId)
                 .encodeString(Name)
                 .encodeString(emailId)

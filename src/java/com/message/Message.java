@@ -10,11 +10,20 @@ import java.util.UUID;
 
 public abstract class Message {
 
-    MessageType messageType;
-    String msgId;
-    String ConvId;
+    protected MessageType messageType;
+    protected UUID conversationId = UUID.randomUUID();
+
+    protected Message(MessageType msgType) {
+        messageType = msgType;
+    }
+
+    protected Message(MessageType msgType, UUID uuid) {
+        messageType = msgType;
+        conversationId = uuid;
+    }
 
     public static Message decode(byte[] messageBytes) {
+        System.out.println("messageBytes.length" + messageBytes.length);
         if (messageBytes.length < 2) {
             throw new IllegalArgumentException();
         }
@@ -55,12 +64,8 @@ public abstract class Message {
         return messageType;
     }
 
-    public String getConversationId() {
-        return ConvId;
-    }
-
-    public String getMsgId() {
-        return msgId;
+    public UUID getConversationId() {
+        return conversationId;
     }
 
     @Override

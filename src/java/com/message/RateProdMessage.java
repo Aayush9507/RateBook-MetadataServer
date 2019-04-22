@@ -1,18 +1,20 @@
 package com.message;
 
 import java.io.IOException;
+import java.util.UUID;
 
-public class RateProdMessage extends Message{
+public class RateProdMessage extends Message {
 
     private String prodId;
     private Float rating;
     private String review;
 //    review string will be the feedback of item by user
 
-    public RateProdMessage(String prodId, Float rating, String review){
-        this.prodId=prodId;
-        this.rating=rating;
-        this.review=review;
+    public RateProdMessage(UUID uuid, String prodId, Float rating, String review) {
+        super(MessageType.RateProd, uuid);
+        this.prodId = prodId;
+        this.rating = rating;
+        this.review = review;
 
     }
 
@@ -22,12 +24,12 @@ public class RateProdMessage extends Message{
         if (decoder.decodeMessageType() != MessageType.RateProd) {
             throw new IllegalArgumentException();
         }
-
+        UUID uuid = decoder.decodeUUID();
         String prodId = decoder.decodeString();
         String review = decoder.decodeString();
         Float rating = decoder.decodeFloat();
 
-        return new RateProdMessage(prodId,rating,review);
+        return new RateProdMessage(uuid, prodId, rating, review);
     }
 
     public String getProdId() {
@@ -58,6 +60,7 @@ public class RateProdMessage extends Message{
     public byte[] encode() throws IOException {
         return new Encoder()
                 .encodeMessageType(messageType)
+                .encodeUUID(conversationId)
                 .encodeString(prodId)
                 .encodeFloat(rating)
                 .encodeString(review)

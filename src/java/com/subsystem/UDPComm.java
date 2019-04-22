@@ -58,7 +58,7 @@ public class UDPComm implements Runnable {
             byte[] messageBytes = Arrays.copyOf(buffer.array(), buffer.position());
             System.out.print("\nData...: "+messageBytes.length);
             buffer.clear();
-            datagramChannel.bind(null);
+//            datagramChannel.bind(null);
             System.out.println("Decoding received message");
             return new Envelope(Message.decode(messageBytes), sourceSocketAddress);
         }

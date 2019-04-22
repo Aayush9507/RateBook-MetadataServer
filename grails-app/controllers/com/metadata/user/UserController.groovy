@@ -27,7 +27,7 @@ class UserController {
     }
     
     def userRegisterAndLogin(){
-        print "Receiving....."
+        print "Receiving......"
         UDPComm t1 = new UDPComm();
         while(true){
             print "Listeninin...."

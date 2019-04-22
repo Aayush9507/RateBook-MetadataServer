@@ -1,16 +1,25 @@
 package com.message;
 
 import java.io.IOException;
+import java.util.UUID;
 
-public class LoginUserMessage extends Message{
+public class LoginUserMessage extends Message {
 
-    private String email;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
     private String password;
 
-
-    public LoginUserMessage(String email, String password){
-        this.email=email;
-        this.password=password;
+    public LoginUserMessage(UUID uuid, String userId, String password) {
+        super(MessageType.LoginUser, uuid);
+        this.userId = userId;
+        this.password = password;
     }
 
     public static LoginUserMessage decode(byte[] messageBytes) {
@@ -19,19 +28,11 @@ public class LoginUserMessage extends Message{
         if (decoder.decodeMessageType() != MessageType.LoginUser) {
             throw new IllegalArgumentException();
         }
-
-        String email = decoder.decodeString();
+        UUID uuid = decoder.decodeUUID();
+        String userId = decoder.decodeString();
         String password = decoder.decodeString();
 
-        return new LoginUserMessage(email, password);
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        return new LoginUserMessage(uuid, userId, password);
     }
 
     public String getPassword() {
@@ -46,7 +47,8 @@ public class LoginUserMessage extends Message{
     public byte[] encode() throws IOException {
         return new Encoder()
                 .encodeMessageType(messageType)
-                .encodeString(email)
+                .encodeUUID(conversationId)
+                .encodeString(userId)
                 .encodeString(password)
                 .toByteArray();
     }

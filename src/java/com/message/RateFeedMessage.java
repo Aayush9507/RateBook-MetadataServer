@@ -1,15 +1,17 @@
 package com.message;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class RateFeedMessage extends Message{
 
     private String prodId;
     private short vote;
     private String reviewId;
-    private short userId;
+    private String userId;
 
-    public RateFeedMessage(String prodId,Short vote,String reviewId,Short userId){
+    public RateFeedMessage(UUID uuid,String prodId,Short vote,String reviewId,String userId){
+        super(MessageType.RateFeed,uuid);
         this.prodId=prodId;
         this.vote=vote;
         this.reviewId=reviewId;
@@ -23,22 +25,24 @@ public class RateFeedMessage extends Message{
             throw new IllegalArgumentException();
         }
 
+        UUID uuid = decoder.decodeUUID();
         String prodId = decoder.decodeString();
         String reviewId = decoder.decodeString();
-        Short userId = decoder.decodeShort();
+        String userId = decoder.decodeString();
         Short vote = decoder.decodeShort();
 
-        return new RateFeedMessage(prodId,vote,reviewId,userId);
+        return new RateFeedMessage(uuid,prodId,vote,reviewId,userId);
     }
 
     @Override
     public byte[] encode() throws IOException {
         return new Encoder()
                 .encodeMessageType(messageType)
+                .encodeUUID(conversationId)
                 .encodeString(prodId)
                 .encodeShort(vote)
                 .encodeString(reviewId)
-                .encodeShort(userId)
+                .encodeString(userId)
                 .toByteArray();
     }
 
@@ -66,11 +70,11 @@ public class RateFeedMessage extends Message{
         this.reviewId = reviewId;
     }
 
-    public Short getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Short userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 }
