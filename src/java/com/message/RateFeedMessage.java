@@ -10,7 +10,6 @@ public class RateFeedMessage extends Message{
     private short userId;
 
     public RateFeedMessage(String prodId,Short vote,String reviewId,Short userId){
-        super(MessageType.RateFeed);
         this.prodId=prodId;
         this.vote=vote;
         this.reviewId=reviewId;

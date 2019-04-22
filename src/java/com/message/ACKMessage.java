@@ -1,10 +1,6 @@
 package com.message;
 import java.io.IOException;
 public class ACKMessage extends Message {
-    public ACKMessage() {
-        super(MessageType.ACKMessage);
-    }
-
     @Override
     public byte[] encode() throws IOException {
         return new Encoder()

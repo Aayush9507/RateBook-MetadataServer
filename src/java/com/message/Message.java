@@ -9,20 +9,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Message {
+
     MessageType messageType;
-    UUID convId = UUID.randomUUID();
-
-    Message(MessageType msgType) {
-        messageType = msgType;
-    }
-
-    Message(MessageType msgType, UUID uuid) {
-        messageType = msgType;
-        convId = uuid;
-    }
+    String msgId;
+    String ConvId;
 
     public static Message decode(byte[] messageBytes) {
-        if(messageBytes.length < 2) {
+        if (messageBytes.length < 2) {
             throw new IllegalArgumentException();
         }
 
@@ -30,7 +23,7 @@ public abstract class Message {
 
         MessageType messageType = decoder.decodeMessageType();
 
-        switch(messageType){
+        switch (messageType) {
             case RegisterUser:
                 return RegisterUserMessage.decode(messageBytes);
             case LoginUser:
@@ -62,13 +55,22 @@ public abstract class Message {
         return messageType;
     }
 
-    public UUID getConversationId() {
-        return convId;
+    public String getConversationId() {
+        return ConvId;
     }
+
+    public String getMsgId() {
+        return msgId;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Message message = (Message) o;
         return messageType == message.messageType;
     }
@@ -80,9 +82,9 @@ public abstract class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "messageType=" + messageType +
-                '}';
+        return "Message{"
+                + "messageType=" + messageType
+                + '}';
     }
 
     public static class Encoder {
@@ -92,17 +94,17 @@ public abstract class Message {
         public Encoder encodeUUID(UUID uuid) throws IOException {
             return encodeString(uuid.toString());
         }
+
         public Encoder encodeShort(short value) throws IOException {
-            ByteBuffer buffer = ByteBuffer.allocate((Short.SIZE)/8);
+            ByteBuffer buffer = ByteBuffer.allocate((Short.SIZE) / 8);
             buffer.order(ByteOrder.BIG_ENDIAN);
             buffer.putShort(value);
             byteArrayOutputStream.write(buffer.array());
             return this;
         }
 
-
         public Encoder encodeFloat(float value) throws IOException {
-            ByteBuffer buffer = ByteBuffer.allocate((Float.SIZE)/8);
+            ByteBuffer buffer = ByteBuffer.allocate((Float.SIZE) / 8);
             buffer.order(ByteOrder.BIG_ENDIAN);
             buffer.putFloat(value);
             byteArrayOutputStream.write(buffer.array());
@@ -110,7 +112,7 @@ public abstract class Message {
         }
 
         public Encoder encodeInt(int value) throws IOException {
-            ByteBuffer buffer = ByteBuffer.allocate((Integer.SIZE)/8);
+            ByteBuffer buffer = ByteBuffer.allocate((Integer.SIZE) / 8);
             buffer.order(ByteOrder.BIG_ENDIAN);
             buffer.putInt(value);
             byteArrayOutputStream.write(buffer.array());
@@ -123,17 +125,17 @@ public abstract class Message {
         }
 
         public Encoder encodeLong(long value) throws IOException {
-            ByteBuffer buffer = ByteBuffer.allocate((Long.SIZE)/8);
+            ByteBuffer buffer = ByteBuffer.allocate((Long.SIZE) / 8);
             buffer.order(ByteOrder.BIG_ENDIAN);
             buffer.putLong(value);
             byteArrayOutputStream.write(buffer.array());
             return this;
         }
 
-
         public Encoder encodeString(String value) throws IOException {
-            if (value==null)
-                value="";
+            if (value == null) {
+                value = "";
+            }
 
             byte[] textBytes = value.getBytes(Charset.forName("UTF-16BE"));
             encodeShort((short) (textBytes.length));
@@ -158,9 +160,11 @@ public abstract class Message {
             byteBuffer = ByteBuffer.wrap(messageBytes);
             byteBuffer.order(ByteOrder.BIG_ENDIAN);
         }
+
         public UUID decodeUUID() {
             return UUID.fromString(decodeString());
         }
+
         public short decodeShort() {
             return byteBuffer.getShort();
         }

@@ -7,7 +7,6 @@ public class FollowProdMessage extends Message{
     private String prodId;
 
     public FollowProdMessage(String prodId){
-        super(MessageType.FollowProd);
         this.prodId=prodId;
     }
 

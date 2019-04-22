@@ -2,7 +2,7 @@ package com.message;
 
 public class PostFeedMessage {
     private short msgType;
-    ProductMessage prod;
+//    ProductMessage prod;
     RegisterUserMessage user;
     String feed;
 

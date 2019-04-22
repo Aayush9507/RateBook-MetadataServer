@@ -7,7 +7,6 @@ public class SearchProductMessage extends Message {
     private String prodName;
 
     public SearchProductMessage(String prodName){
-        super(MessageType.SearchProd);
         this.prodName=prodName;
     }
 

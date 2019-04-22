@@ -9,7 +9,6 @@ public class LoginUserMessage extends Message{
 
 
     public LoginUserMessage(String email, String password){
-        super(MessageType.LoginUser);
         this.email=email;
         this.password=password;
     }

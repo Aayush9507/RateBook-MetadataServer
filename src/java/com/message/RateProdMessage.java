@@ -10,7 +10,6 @@ public class RateProdMessage extends Message{
 //    review string will be the feedback of item by user
 
     public RateProdMessage(String prodId, Float rating, String review){
-        super(MessageType.RateProd);
         this.prodId=prodId;
         this.rating=rating;
         this.review=review;

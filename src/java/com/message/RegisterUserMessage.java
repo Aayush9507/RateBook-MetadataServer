@@ -3,15 +3,18 @@ package com.message;
 import java.io.IOException;
 import java.util.UUID;
 public  class RegisterUserMessage extends Message {
-    private short userId;
+    private String userId;
     private String Name;
     private String emailId;
     private String password;
     private String areaOfInterest;
+    private String convId;
+    private String msgId;
 
-    public RegisterUserMessage(UUID uuid, short userId, String Name, String emailId, String password, String areaOfInterest) {
-        super(MessageType.RegisterUser, uuid);
-        this.userId = userId;
+    public RegisterUserMessage(String convId,String msgId, String userId, String Name, String emailId, String password, String areaOfInterest) {
+        this.convId = convId;
+        this.msgId = userId;
+        this.userId = msgId;
         this.Name = Name;
         this.emailId = emailId;
         this.password = password;
@@ -25,21 +28,22 @@ public  class RegisterUserMessage extends Message {
         if (decoder.decodeMessageType() != MessageType.RegisterUser) {
             throw new IllegalArgumentException();
         }
-        UUID uuid = decoder.decodeUUID();
-        short userId = decoder.decodeShort();
+        String convId = decoder.decodeString();
+        String msgId = decoder.decodeString();
+        String userId = decoder.decodeString();
         String Name = decoder.decodeString();
         String emailId = decoder.decodeString();
         String password = decoder.decodeString();
         String areaOfInterest = decoder.decodeString();
 
-        return new RegisterUserMessage(uuid, userId, Name, emailId, password, areaOfInterest);
+        return new RegisterUserMessage(convId, msgId, userId, Name, emailId, password, areaOfInterest);
     }
 
-    public short getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(short userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -79,8 +83,8 @@ public  class RegisterUserMessage extends Message {
     public byte[] encode() throws IOException {
         return new Encoder()
                 .encodeMessageType(messageType)
-                .encodeUUID(convId)
-                .encodeShort(userId)
+                .encodeString(msgId)
+                .encodeString(userId)
                 .encodeString(Name)
                 .encodeString(emailId)
                 .encodeString(password)

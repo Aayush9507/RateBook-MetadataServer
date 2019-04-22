@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class ConversationDictionary {
-private static HashMap<UUID, Conversation> _activeConversation = new HashMap();
-    public static Conversation getConversation(UUID conversationId)
+private static HashMap<String, Conversation> _activeConversation = new HashMap();
+    public static Conversation getConversation(String conversationId)
     {
         Conversation conv = null;
         conv = _activeConversation.get(conversationId);
@@ -15,7 +15,7 @@ private static HashMap<UUID, Conversation> _activeConversation = new HashMap();
     {
         _activeConversation.remove(conversationId);
     }
-    public static void addConversation(UUID conversationId, Conversation conv)
+    public static void addConversation(String conversationId, Conversation conv)
     {
         if (conv == null) return;
         Conversation existingConversation = getConversation(conversationId);

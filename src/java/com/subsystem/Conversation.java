@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 public class Conversation {
     Queue<Envelope> IncomingEnvelopes = new ConcurrentLinkedQueue<Envelope>(); // Queue for Incoming Envelopes
-    UUID ConvId;
+    String ConvId;
     // For maintaining the state of a conversation
     public enum PossibleState {
         NotInitialized,
@@ -89,19 +89,12 @@ public class Conversation {
         IncomingEnvelopes = incomingEnvelopes;
     }
 
-    public UUID getConvId() {
+    public String getConvId() {
         return ConvId;
     }
 
-    public void setConvId(UUID convId) {
+    public void setConvId(String convId) {
         ConvId = convId;
-    }
-
-    // creating UUID
-    public synchronized UUID getUUID(){
-
-        ConvId = UUID.randomUUID();
-        return ConvId;
     }
 
     protected boolean Initialize()

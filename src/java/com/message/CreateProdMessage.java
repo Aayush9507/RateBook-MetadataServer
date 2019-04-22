@@ -42,7 +42,6 @@ public class CreateProdMessage extends Message{
     }
 
     public CreateProdMessage(short userId, String name, String prodId, short price){
-        super(MessageType.CreateProd);
         this.userId=userId;
         this.name=name;
         this.prodId=prodId;
