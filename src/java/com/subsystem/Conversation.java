@@ -125,7 +125,7 @@ public class Conversation {
             remainingSends--;
             if (CommSubsystem.UdpComm.send(outgoingEnv)){
         try {
-            incomingEnvelope = CommSubsystem.UdpComm.receive();
+//            incomingEnvelope = CommSubsystem.UdpComm.receive();
         } catch (Exception e) {
             e.printStackTrace();
         }}

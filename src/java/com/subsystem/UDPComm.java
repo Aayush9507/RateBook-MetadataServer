@@ -46,9 +46,11 @@ public class UDPComm implements Runnable {
     }
 
     public Envelope receive() throws IOException {
-        System.out.println("receiving.....");
+        System.out.println("receiving.......");
         InetAddress hostIP = InetAddress.getLocalHost();
-        InetSocketAddress address = new InetSocketAddress(hostIP, 8089);
+        InetSocketAddress address = new InetSocketAddress(hostIP, 8087);
+//        InetSocketAddress address = new InetSocketAddress("10.0.0.165", 8089);
+//        InetSocketAddress address = new InetSocketAddress("10.0.0.165", 8089);
         DatagramChannel datagramChannel = DatagramChannel.open();
         DatagramSocket datagramSocket = datagramChannel.socket();
         datagramSocket.bind(address);
@@ -56,9 +58,8 @@ public class UDPComm implements Runnable {
         while (true) {
             InetSocketAddress sourceSocketAddress = (InetSocketAddress) datagramChannel.receive(buffer);
             byte[] messageBytes = Arrays.copyOf(buffer.array(), buffer.position());
-            System.out.print("\nData...: "+messageBytes.length);
+            System.out.print("\nData...: " + messageBytes.length);
             buffer.clear();
-//            datagramChannel.bind(null);
             System.out.println("Decoding received message");
             return new Envelope(Message.decode(messageBytes), sourceSocketAddress);
         }
@@ -72,6 +73,7 @@ public class UDPComm implements Runnable {
     public void run() {
         try {
             System.out.println("Inside run method");
+            receive();
             Envelope e = receive();
             System.out.println("e" + e.getMessage().getConversationId());
             receiveEnvelopeQueue.add(e);

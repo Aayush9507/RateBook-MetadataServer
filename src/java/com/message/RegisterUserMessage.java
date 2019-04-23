@@ -2,7 +2,9 @@ package com.message;
 
 import java.io.IOException;
 import java.util.UUID;
-public  class RegisterUserMessage extends Message {
+
+public class RegisterUserMessage extends Message {
+
     private String userId;
     private String Name;
     private String emailId;
@@ -21,9 +23,9 @@ public  class RegisterUserMessage extends Message {
         this.password = password;
         this.areaOfInterest = areaOfInterest;
     }
-    
-        public RegisterUserMessage(UUID uuid, String userId, String Name, String emailId, String password, String areaOfInterest) {
-        super(MessageType.RegisterUser,uuid);
+
+    public RegisterUserMessage(UUID uuid, String userId, String Name, String emailId, String password, String areaOfInterest) {
+        super(MessageType.RegisterUser, uuid);
 //        this.convId = convId;
         this.userId = userId;
 //        this.userId = msgId;
@@ -32,9 +34,6 @@ public  class RegisterUserMessage extends Message {
         this.password = password;
         this.areaOfInterest = areaOfInterest;
     }
-    
-    
-
 
     public static RegisterUserMessage decode(byte[] messageBytes) {
         Decoder decoder = new Decoder(messageBytes);
@@ -50,7 +49,7 @@ public  class RegisterUserMessage extends Message {
         String emailId = decoder.decodeString();
         String password = decoder.decodeString();
         String areaOfInterest = decoder.decodeString();
-
+        System.out.println(uuid + " " + userId + " " + " " + Name + " " + emailId + " " + password + " " + areaOfInterest);
         return new RegisterUserMessage(uuid, userId, Name, emailId, password, areaOfInterest);
     }
 
@@ -97,8 +96,8 @@ public  class RegisterUserMessage extends Message {
     @Override
     public byte[] encode() throws IOException {
         System.out.println("Encoding......................Register user Message");
-        System.out.println("Message Type"+this.getMessageType());
-        System.out.println("Conversation Id"+this.getConversationId());
+        System.out.println("Message Type" + this.getMessageType());
+        System.out.println("Conversation Id" + this.getConversationId());
         return new Encoder()
                 .encodeMessageType(messageType)
                 .encodeUUID(conversationId)

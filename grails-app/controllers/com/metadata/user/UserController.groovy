@@ -30,7 +30,7 @@ class UserController {
         print "Receiving......"
         UDPComm t1 = new UDPComm();
         while(true){
-            print "Listeninin...."
+            print "Listening...."
             t1.receive()
         }
 //        Thread t =  new Thread(t1);
