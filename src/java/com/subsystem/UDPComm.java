@@ -48,7 +48,7 @@ public class UDPComm implements Runnable {
     public Envelope receive() throws IOException {
         System.out.println("receiving.....");
         InetAddress hostIP = InetAddress.getLocalHost();
-        InetSocketAddress address = new InetSocketAddress(hostIP, 8089);
+        InetSocketAddress address = new InetSocketAddress(hostIP, 8087);
         DatagramChannel datagramChannel = DatagramChannel.open();
         DatagramSocket datagramSocket = datagramChannel.socket();
         datagramSocket.bind(address);
@@ -62,6 +62,7 @@ public class UDPComm implements Runnable {
             System.out.println("Decoding received message");
             return new Envelope(Message.decode(messageBytes), sourceSocketAddress);
         }
+        
     }
 
     public void stop() throws IOException {
@@ -73,8 +74,9 @@ public class UDPComm implements Runnable {
         try {
             System.out.println("Inside run method");
             Envelope e = receive();
-            System.out.println("e" + e.getMessage().getConversationId());
+            System.out.println("envelope's Conv ID " + e.getMessage().getConversationId());
             receiveEnvelopeQueue.add(e);
+            System.out.println("Added in Receive Envelope Queue");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,7 +84,12 @@ public class UDPComm implements Runnable {
 
     public Envelope getEnvelope() {
         // return message from queue with timeout
+        System.out.println("Dispatcher Thread Started");
         Envelope env = null;
+        if(receiveEnvelopeQueue!=null){
+            env = (Envelope) receiveEnvelopeQueue.peek();
+            return env;
+        }
         return env;
     }
 }
