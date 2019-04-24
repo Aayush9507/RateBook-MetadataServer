@@ -21,6 +21,7 @@ private static HashMap<UUID, Conversation> _activeConversation = new HashMap();
         Conversation existingConversation = getConversation(conversationId);
         if (existingConversation == null)
             _activeConversation.put(conversationId, conv);
+        System.out.println("conversation added");
     }
     public static void clearAllConversation(UUID conversationId)
     {
