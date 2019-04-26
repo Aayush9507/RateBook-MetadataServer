@@ -9,7 +9,7 @@ class Users {
     Date createdOn
     String apiAccessToken
     String userLogs
-    Blob userPref
+    String userPref
     static constraints = {
         apiAccessToken nullable: true, maxSize: 255, unique: true
         name(nullable: true)
